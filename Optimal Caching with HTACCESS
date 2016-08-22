@@ -4,100 +4,102 @@
 # Caching explained: #
 # - https://betterexplained.com/articles/how-to-optimize-your-site-with-http-caching/
 # - https://www.mnot.net/cache_docs/#CACHE-CONTROL
+# 
+# (caching with php - https://github.com/tazotodua/other-projects/blob/master/___deleted_files/caching%20with%20php )
 
 #### Some notes: #####
 #Note 1: Remember, in HTACCESS, instead of ONE-LINE File-Type commands, you can always use `<FilesMatch>` command. 
-#		Example: instead of-
-#					ExpiresByType image/jpg "access plus 1 year" 
-#		You can use:
-#				<FilesMatch "\.(jpg|png)$">
-#					ExpiresDefault "access plus 1 year"
-#				</FilesMatch>
-	
-	
+#        Example: instead of-
+#            ExpiresByType image/jpg "access plus 1 year" 
+#        You can use:
+#            <FilesMatch "\.(jpg|png)$">
+#              ExpiresDefault "access plus 1 year"
+#            </FilesMatch>
+    
+    
 
 
-			##***********************************************************************************##
-			##***********************************************************************************##
-			##********************					CACHING 	  			*********************##
-			##***********************************************************************************##
-			##***********************************************************************************##
+            ##***********************************************************************************##
+            ##***********************************************************************************##
+            ##********************            CACHING           *********************##
+            ##***********************************************************************************##
+            ##***********************************************************************************##
 
 
 ##############################################################
-##############		 CACHING with "EXPIRE" 	  ################
+##############         CACHING with "EXPIRE"       ################
 ##Description: you can adjust the below options. Note, if you use FALCON caching, then remove the below "text/html"  line.
 ##############################################################
 <IfModule mod_expires.c>
-	ExpiresActive On
-	ExpiresDefault "access plus 1 month"
-	# Media
-	ExpiresByType image/jpg 		"access plus 1 year"
-	ExpiresByType image/jpeg 		"access plus 1 year"
-	ExpiresByType image/gif 		"access plus 1 year"
-	ExpiresByType image/png 		"access plus 1 year"
-	ExpiresByType image/bmp 		"access plus 1 year"
-	ExpiresByType image/x-icon		"access plus 1 year"
-	ExpiresByType video/ogg 		"access plus 1 year"
-	ExpiresByType audio/ogg			"access plus 1 year"
-	ExpiresByType video/mp4			"access plus 1 year"
-	ExpiresByType video/webm		"access plus 1 year"		
-	# Webfonts
-	ExpiresByType image/svg+xml 			"access plus 1 month"
-	ExpiresByType font/truetype             "access plus 3 months"
-	ExpiresByType font/opentype             "access plus 3 months"
-	ExpiresByType application/x-font-woff   "access plus 3 months"
-	ExpiresByType application/vnd.ms-fontobject "access plus 3 months"		
-	# Other
-	ExpiresByType text/css 					"access plus 1 week"
-	ExpiresByType text/html 				"access plus 1 month"
-	ExpiresByType text/javascript 			"access plus 1 month"
-	ExpiresByType text/x-javascript 		"access plus 1 month"
-	ExpiresByType application/javascript 	"access plus 1 month"
-	ExpiresByType application/pdf 			"access plus 4 months"
-	ExpiresByType application/x-shockwave-flash "access plus 1 month"
-	# cache.appcache needs re-requests in FF 3.6
-	ExpiresByType text/cache-manifest       "access plus 1 seconds"
-	# Data
-	ExpiresByType text/xml                  "access plus 1 seconds"
-	ExpiresByType application/xml           "access plus 1 seconds"
-	ExpiresByType application/json          "access plus 1 seconds"
-	# RSS feed
-	ExpiresByType application/rss+xml       "access plus 1 hour"
+    ExpiresActive On
+    ExpiresDefault "access plus 1 month"
+    # Media
+    ExpiresByType image/jpg          "access plus 1 year"
+    ExpiresByType image/jpeg         "access plus 1 year"
+    ExpiresByType image/gif          "access plus 1 year"
+    ExpiresByType image/png          "access plus 1 year"
+    ExpiresByType image/bmp          "access plus 1 year"
+    ExpiresByType image/x-icon       "access plus 1 year"
+    ExpiresByType video/ogg          "access plus 1 year"
+    ExpiresByType audio/ogg          "access plus 1 year"
+    ExpiresByType video/mp4          "access plus 1 year"
+    ExpiresByType video/webm         "access plus 1 year"        
+    # Webfonts
+    ExpiresByType image/svg+xml             "access plus 1 month"
+    ExpiresByType font/truetype             "access plus 3 months"
+    ExpiresByType font/opentype             "access plus 3 months"
+    ExpiresByType application/x-font-woff   "access plus 3 months"
+    ExpiresByType application/vnd.ms-fontobject "access plus 3 months"        
+    # Other
+    ExpiresByType text/css                    "access plus 1 week"
+    ExpiresByType text/html                   "access plus 1 month"
+    ExpiresByType text/javascript             "access plus 1 month"
+    ExpiresByType text/x-javascript           "access plus 1 month"
+    ExpiresByType application/javascript      "access plus 1 month"
+    ExpiresByType application/pdf             "access plus 4 months"
+    ExpiresByType application/x-shockwave-flash "access plus 1 month"
+    # cache.appcache needs re-requests in FF 3.6
+    ExpiresByType text/cache-manifest         "access plus 1 seconds"
+    # Data
+    ExpiresByType text/xml                    "access plus 1 seconds"
+    ExpiresByType application/xml             "access plus 1 seconds"
+    ExpiresByType application/json            "access plus 1 seconds"
+    # RSS feed
+    ExpiresByType application/rss+xml         "access plus 1 hour"
 </IfModule>
 <IfModule mod_headers.c>
-	Header append Cache-Control "public"
+    Header append Cache-Control "public"
 </IfModule>
 
-	############P.S.#############
-	#Note 1: "ExpiresActive" activates "mod_expires", which automatically generates  "Cache-Control:max-age.." headers  
-	#Note 2: Instead of "access plus 1 day" you can use A86400 (or whatever seconds you want ). They are same, dont worry.
-					
-				
-				
-				
-			##################################################################
-			##################	 CACHING with "Cache-control" 	##############
-			##Description: If you use "EXPIRES" method for caching, then this method("Cache-control") is not needed. But when servers doesnt support "EXPIRES",  OR you just want to use some specific options (i.e. revalidate,no-cache...), then instead of "EXPIRES" method, use these:
-			##################################################################		
-		#*	<ifModule mod_headers.c>
-		#*		#max age is calculated in seconds (1 month = 2592000 )
-		#*		<filesMatch "\.(css|jpg|jpeg|png|gif|js|ico|pdf|flv|swf)$">
-		#*			Header set Cache-Control "max-age=2592000, public"
-		#*		</filesMatch>
-		#*		<filesMatch "\.(xml|txt)$">
-		#*			Header set Cache-Control "max-age=216000, public, must-revalidate"
-		#*		</filesMatch>
-		#*		<filesMatch "sitemap\.xml$">
-		#*			Header set Cache-Control "max-age=500, private, no-cache"
-		#*		</filesMatch>
-		#*		<filesMatch "\.(x?html?|htm)$">
-		#*			Header set Cache-Control "max-age=216000, private, must-revalidate"
-		#*		</filesMatch>
-		#*		<filesMatch "\.(php)$">
-		#*			Header set Cache-Control "max-age=1, private, must-revalidate"
-		#*		</filesMatch>
-		#*	</ifModule>
+    ############P.S.#############
+    #Note 1: "ExpiresActive" activates "mod_expires", which automatically generates  "Cache-Control:max-age.." headers  
+    #Note 2: Instead of "access plus 1 day" you can use A86400 (or whatever seconds you want ). They are same, dont worry.
+                    
+                
+                
+                
+            ##################################################################
+            ##################   CACHING with "Cache-control"    #############
+            ##Description: If you use "EXPIRES" method for caching, then this method("Cache-control") is not needed. But when servers doesnt support "EXPIRES",  OR you just want to use some specific options (i.e. revalidate,no-cache...), then instead of "EXPIRES" method, use these:
+            ##################################################################        
+        #*    <ifModule mod_headers.c>
+        #*        #max age is calculated in seconds (1 month = 2592000 )
+        #*        <filesMatch "\.(css|jpg|jpeg|png|gif|js|ico|pdf|flv|swf)$">
+        #*            Header set Cache-Control "max-age=2592000, public"
+        #*        </filesMatch>
+        #*        <filesMatch "\.(xml|txt)$">
+        #*            Header set Cache-Control "max-age=216000, public, must-revalidate"
+        #*        </filesMatch>
+        #*        <filesMatch "sitemap\.xml$">
+        #*            Header set Cache-Control "max-age=500, private, no-cache"
+        #*        </filesMatch>
+        #*        <filesMatch "\.(x?html?|htm)$">
+        #*            Header set Cache-Control "max-age=216000, private, must-revalidate"
+        #*        </filesMatch>
+        #*        <filesMatch "\.(php)$">
+        #*            Header set Cache-Control "max-age=1, private, must-revalidate"
+        #*        </filesMatch>
+        #*    </ifModule>
 
 
 
@@ -107,21 +109,21 @@
 ###########################################################
 
 <ifModule mod_headers.c>
-	Header unset ETag
+    Header unset ETag
 </ifModule>
 # the above "unset" is better, because `FileETag None` doesn't work always
 FileETag None
 
 
 ###########################################################
-########### Turn off `Last-Modified`	 ##################
+########### Turn off `Last-Modified`     ##################
 #Description:  If you remove the `Last-Modified` and `ETag` header, you will totally eliminate `If-Modified-Since` and `If-None-Match` requests and their `304 Not Modified` responses, so a file will stay cached without checking for updates until the `Expires` header indicates new content is available!
 ###########################################################
 
 <ifModule mod_headers.c>
-  Header unset Last-Modified
-  # you may need to uncomment below line if your existing htaccess contains inapropriate `Vary` commands, otherwise CACHING wont work!
-  # Header unset Vary
+    Header unset Last-Modified
+    # you may need to uncomment below line if your existing htaccess contains inapropriate `Vary` commands, otherwise CACHING wont work!
+ #* Header unset Vary
 </ifModule>
 
 
@@ -132,66 +134,66 @@ FileETag None
 
 
 
-			##***********************************************************************************##
-			##***********************************************************************************##
-			##********************				COMPRESSION 	  			*********************##
-			##***********************************************************************************##
-			##***********************************************************************************##
+            ##***********************************************************************************##
+            ##***********************************************************************************##
+            ##********************                COMPRESSION               *********************##
+            ##***********************************************************************************##
+            ##***********************************************************************************##
 
-		
+        
 ###########################################################
-########### `DEFLATE` COMPRESSION		 ##################
+################ `DEFLATE` COMPRESSION    #################
 #Description: 
 ###########################################################
 <IfModule mod_deflate.c>
-	AddOutputFilterByType DEFLATE application/javascript
-	AddOutputFilterByType DEFLATE application/rss+xml
-	AddOutputFilterByType DEFLATE application/vnd.ms-fontobject
-	AddOutputFilterByType DEFLATE application/x-font
-	AddOutputFilterByType DEFLATE application/x-font-opentype
-	AddOutputFilterByType DEFLATE application/x-font-otf
-	AddOutputFilterByType DEFLATE application/x-font-truetype
-	AddOutputFilterByType DEFLATE application/x-font-ttf
-	AddOutputFilterByType DEFLATE application/x-javascript
-	AddOutputFilterByType DEFLATE application/xhtml+xml
-	AddOutputFilterByType DEFLATE application/xml
-	AddOutputFilterByType DEFLATE font/opentype
-	AddOutputFilterByType DEFLATE font/otf
-	AddOutputFilterByType DEFLATE font/ttf
-	AddOutputFilterByType DEFLATE image/svg+xml
-	AddOutputFilterByType DEFLATE image/x-icon
-	AddOutputFilterByType DEFLATE text/css
-	AddOutputFilterByType DEFLATE text/html
-	AddOutputFilterByType DEFLATE text/javascript
-	AddOutputFilterByType DEFLATE text/plain
-	AddOutputFilterByType DEFLATE text/xml
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/vnd.ms-fontobject
+    AddOutputFilterByType DEFLATE application/x-font
+    AddOutputFilterByType DEFLATE application/x-font-opentype
+    AddOutputFilterByType DEFLATE application/x-font-otf
+    AddOutputFilterByType DEFLATE application/x-font-truetype
+    AddOutputFilterByType DEFLATE application/x-font-ttf
+    AddOutputFilterByType DEFLATE application/x-javascript
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE font/opentype
+    AddOutputFilterByType DEFLATE font/otf
+    AddOutputFilterByType DEFLATE font/ttf
+    AddOutputFilterByType DEFLATE image/svg+xml
+    AddOutputFilterByType DEFLATE image/x-icon
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/javascript
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/xml
 </IfModule>
 
 
 
-			###########################################################
-			########### `GZIP` COMPRESSION		 ######################
-			#Description: If using `DEFLATE`, then you dont need GZIP. But if `DEFLATE` doesnt work, then use this (some say, that it is CPU intensive) #
-			###########################################################
-		#*	<IfModule mod_gzip.c>
-		#*		mod_gzip_on Yes
-		#*		mod_gzip_dechunk Yes
-		#*		mod_gzip_item_include file \.(html?|txt|css|js|php|pl)$
-		#*		mod_gzip_item_include handler ^cgi-script$
-		#*		mod_gzip_item_include mime ^text/.*
-		#*		mod_gzip_item_include mime ^application/x-javascript.*
-		#*		mod_gzip_item_exclude mime ^image/.*
-		#*		mod_gzip_item_exclude mime ^font/.*
-		#*		mod_gzip_item_exclude rspheader ^Content-Encoding:.*gzip.*
-		#*	</IfModule>
-		
-		
-		
-		
-			###########################################################
-			########### Manual `GZIP` COMPRESSION		 ######################
-			#Description: If your hosting doesn’t have this module enabled, instead of above code, you can use manual method. Using this method, you use PHP function to GZIP files. However, this is very CPU intensive. #
-			###########################################################
-			# Compressing PHP files :
-		#*	php_value output_handler ob_gzhandler
-			# Compressing static files: use Ali Farhadi’s JSmart Compressor which compress CSS and JavaScript files - https://samaxes.com/2008/04/htaccess-gzip-and-cache-your-site-for-faster-loading-and-bandwidth-saving/
+            ###########################################################
+            ################## `GZIP` COMPRESSION   ###################
+            #Description: If using `DEFLATE`, then you dont need GZIP. But if `DEFLATE` doesnt work, then use this (some say, that it is CPU intensive) #
+            ###########################################################
+        #*    <IfModule mod_gzip.c>
+        #*        mod_gzip_on Yes
+        #*        mod_gzip_dechunk Yes
+        #*        mod_gzip_item_include file \.(html?|txt|css|js|php|pl)$
+        #*        mod_gzip_item_include handler ^cgi-script$
+        #*        mod_gzip_item_include mime ^text/.*
+        #*        mod_gzip_item_include mime ^application/x-javascript.*
+        #*        mod_gzip_item_exclude mime ^image/.*
+        #*        mod_gzip_item_exclude mime ^font/.*
+        #*        mod_gzip_item_exclude rspheader ^Content-Encoding:.*gzip.*
+        #*    </IfModule>
+        
+        
+        
+        
+            ###########################################################
+            ################ Manual `GZIP` COMPRESSION  ###############
+            #Description: If your hosting doesn’t have this module enabled, instead of above code, you can use manual method. Using this method, you use PHP function to GZIP files. However, this is very CPU intensive. #
+            ###########################################################
+            # Compressing PHP files :
+        #*    php_value output_handler ob_gzhandler
+            # Compressing static files: use Ali Farhadi’s JSmart Compressor which compress CSS and JavaScript files - https://samaxes.com/2008/04/htaccess-gzip-and-cache-your-site-for-faster-loading-and-bandwidth-saving/
