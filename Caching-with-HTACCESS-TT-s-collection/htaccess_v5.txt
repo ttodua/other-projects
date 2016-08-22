@@ -39,7 +39,7 @@
 	
 ###########################################################
 ################## Declaring MIME types ###################
-# Description: Sometimes hosting doesnt automatically do those (more at: https://goo.gl/imoiAd )
+# Description: Sometimes hosting doesnt automatically do this. (more at: https://goo.gl/imoiAd )
 ###########################################################
 <IfModule mod_mime.c>
   # Data interchange
