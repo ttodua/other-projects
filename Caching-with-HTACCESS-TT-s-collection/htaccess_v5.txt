@@ -2,29 +2,45 @@
 ########################### HTACCESS optimization (TT's version) #################
 ##################################################################################
 ######################### ShortLink:  https://git.io/v6ykm #######################
-# Note 1: READ ALL NOTES & COMMENTS in this file, PLEASE!
-# Note 2: It's better if you paste this page fully in your HTACCESS 
-# Note 3: Suggestions are welcome! (mail at: tazotodua+github@gmail.com) ####
-# Note 4: In some cases, if your hosting is limited, you can use different "CACHING" and
+# NOTE 1: READ ALL NOTES & COMMENTS in this file, PLEASE!
+# NOTE 2: It's better if you paste this page fully in your HTACCESS 
+# NOTE 3: Suggestions are welcome! (mail at: tazotodua+github@gmail.com) ####
+# NOTE 4: In some cases, if your hosting is limited, you can use different "CACHING" and
 #            "COMPRESSION" methods, rather than the my codes. For this, read the commented lines
 #            in "CACHING" and "COMPRESSION" blocks.
-# Note 4: Caching explained: #
-#           - https://betterexplained.com/articles/how-to-optimize-your-site-with-http-caching/
-#           - https://www.mnot.net/cache_docs/#CACHE-CONTROL
-# Note 5: In case you dont have access to HTACCESS, then caching with PHP: https://git.io/v6yfp
-# Note 6: Remember, in HTACCESS, instead of ONE-LINE fileType commands, i.e.
+# NOTE 4: In case you dont have access to HTACCESS, then caching with PHP: https://git.io/v6yfp
+# NOTE 5: Remember, in HTACCESS, instead of ONE-LINE fileType commands, i.e.
 #            ExpiresByType image/jpg "access plus 5 months"  
 #        You can use:
 #            <FilesMatch "\.(jpg|png)$">
 #              ExpiresDefault "access plus 3 months"
 #            </FilesMatch>
-# Note 7: Most users wont ever need Manifest files. (Who needs them, read: http://goo.gl/3AFjt3 )
-# Note 8: If you use this with Wordpress, it's better to insert this block before `WP` block.
-# Note 9: Thanks to all contributors! 
+# NOTE 6: Most users wont ever need Manifest files. (Who needs them, read: http://goo.gl/3AFjt3 )
+# NOTE 7: If you use this with Wordpress, it's better to insert this block before `WP` block.
+# NOTE 8: Thanks to all contributors! 
+###################################################################################
+###################################################################################
 
 
+###########################################################
+########### Turn off `Last-Modified`     ##################
+#Description:  If you remove the `Last-Modified` and `ETag` header, you will totally eliminate
+#              `If-Modified-Since` and `If-None-Match` requests and their `304 Not Modified` 
+#              responses, so a file will stay cached without checking for updates until the 
+#              `Expires` header indicates new content is available!
+# NOTE 1: Sometimes, your existing .htaccess may contains strange `Vary` commands (i.e.  WordFence
+#         sets it to "Accept-Encoding, Cookie" --> https://goo.gl/9h2v52 ), so I re-set `Vary`. 
+#         Otherwise images,js... CACHING doesnt work!
+###########################################################
+<ifModule mod_headers.c>
+    Header unset Last-Modified
+    Header set Vary "Accept-Encoding"
+</ifModule>
 	
-# Declaring MIME types. (more at: https://goo.gl/imoiAd )
+###########################################################
+################## Declaring MIME types ###################
+# Description: Sometimes hosting doesnt automatically do those (more at: https://goo.gl/imoiAd )
+###########################################################
 <IfModule mod_mime.c>
   # Data interchange
     AddType application/atom+xml                        atom
@@ -63,27 +79,33 @@
     AddType text/vnd.rim.location.xloc                  xloc
     AddType text/vtt                                    vtt
     AddType text/x-component                            htc
-
 </IfModule>
-
-# For Security (more at: http://pastebin.com/raw/KWYyHwLy )
-<IfModule mod_headers.c>
-    Header set X-Content-Type-Options "nosniff"
-</IfModule>	
-
-
+	
+	
+	
+	
+	
+	
+	
+	
 ##############################################################
-##############      CACHING (`EXPIRE`  method)    ################
+##############     CACHING (`EXPIRE`  method)     ############
 ### Description:  cache your files with `EXPIRES` method.
-#Note 1: If your hosting cant use `EXPIRES`,use `Cache-Control` http://pastebin.com/E7Bv4D6v
-#Note 2: `EXPIRES` activates `mod_expires`, which automatically 
-#           generates "Cache-Control:max-age.." headers,  so you dont need to add that.
-#Note 3: Instead of "access plus 1 day" you can use A86400 (or whatever seconds you want ).
-#Note 4: If you use FALCON caching, then remove the "text/html" line.
+# NOTE 1: Caching explained:  (a) https://goo.gl/kF3Nzb (b) https://goo.gl/USqPGl
+# NOTE 2: If caching doesnt work, read the above paragraph "Turning off LAST-MODIFIED"
+# NOTE 3: If your hosting cant use `EXPIRES`,try such `Cache-Control`: http://goo.gl/gME7cA
+# NOTE 4: `EXPIRES` activates `mod_expires`, which automatically 
+#           generates "Cache-Control:max-age=xxxx" header,  so you dont need to add that.
+# NOTE 5: Instead of "access plus 1 day" you can use A86400 (or whatever seconds you want ).
+# NOTE 6: If you use FALCON/HTML caching, then remove the "text/html" line.
+
 ##############################################################
+<IfModule mod_headers.c>
+    Header append Cache-Control "public"
+</IfModule>
 <IfModule mod_expires.c>
     ExpiresActive On
-    ExpiresDefault 						   "access plus 1 month"
+    ExpiresDefault                         "access plus 1 month"
     # Media
     ExpiresByType image/jpg                "access plus 1 year"
     ExpiresByType image/jpeg               "access plus 1 year"
@@ -128,13 +150,7 @@
     ExpiresByType application/rdf+xml      "access plus 1 hour"
     ExpiresByType application/atom+xml     "access plus 1 hour"
 </IfModule>
-<IfModule mod_headers.c>
-    Header append Cache-Control "public"
-</IfModule>
 
-
-
-	
 	
 	
 ###########################################################
@@ -143,7 +159,6 @@
 #               the ETag header, you disable caches & browsers from being able to validate files,
 #               so they are forced to rely on your Cache-Control and Expires header.  
 ###########################################################
-
 <ifModule mod_headers.c>
     Header unset ETag
 </ifModule>
@@ -151,30 +166,18 @@
 FileETag None
 
 
-###########################################################
-########### Turn off `Last-Modified`     ##################
-#Description:  If you remove the `Last-Modified` and `ETag` header, you will totally eliminate
-#              `If-Modified-Since` and `If-None-Match` requests and their `304 Not Modified` 
-#              responses, so a file will stay cached without checking for updates until the 
-#              `Expires` header indicates new content is available!
-# Note 1: If your existing .htaccess contains any inapropriate `Vary` commands (i.e. WordFence 
-#         sets it to "Accept-Encoding, Cookie"), then you may  need to uncomment the second 
-#         line, otherwise CACHING wont work!
-###########################################################
-
-<ifModule mod_headers.c>
-    Header unset Last-Modified
- #  Header set Vary "Accept-Encoding"
-</ifModule>
-
-
+###################### For Security  ######################
+# Disable sniff (more at: http://pastebin.com/raw/KWYyHwLy )
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+</IfModule>	
 
         
-##################################################################
-################ COMPRESSION (`DEFLATE` method)  #################
-#Description:  send compressed data to visitor, thus saving Bandwith and SPEED-UP site.
-#Note 1: If your hosting cant use `DEFLATE` method, use GZIP: http://goo.gl/qEW8Zb
-##################################################################
+#############################################################
+################ COMPRESSION (`DEFLATE` method)  ############
+# Description:  send compressed data to visitor, thus saving Bandwith and SPEED-UP site.
+# NOTE 1: If your hosting cant use `DEFLATE` method, use GZIP: http://goo.gl/qEW8Zb
+#############################################################
 <IfModule mod_deflate.c>
     AddOutputFilterByType DEFLATE text/css text/html text/javascript text/plain text/xml
     AddOutputFilterByType DEFLATE font/opentype font/otf font/ttf image/svg+xml image/x-icon
