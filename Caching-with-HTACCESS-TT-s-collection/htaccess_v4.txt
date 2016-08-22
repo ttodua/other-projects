@@ -1,0 +1,202 @@
+##################################################################################
+########################### HTACCESS optimization (TT's version) #################
+##################################################################################
+######################### ShortLink:  https://git.io/v6ykm #######################
+
+# Note 1: It's better if you paste this page fully in your HTACCESS 
+# Note 2: Suggestions are welcome! (mail at: tazotodua+github@gmail.com) ####
+# Note 3: Caching explained: #
+#           - https://betterexplained.com/articles/how-to-optimize-your-site-with-http-caching/
+#           - https://www.mnot.net/cache_docs/#CACHE-CONTROL
+# Note 4: In case you dont have access to HTACCESS, then caching with PHP: https://git.io/v6yfp
+# Note 5: Remember, in HTACCESS, instead of ONE-LINE fileType commands, i.e.
+#            ExpiresByType image/jpg "access plus 5 months"  
+#        You can use:
+#            <FilesMatch "\.(jpg|png)$">
+#              ExpiresDefault "access plus 3 months"
+#            </FilesMatch>
+# Note 6: Most users wont ever need Manifest files. (Who needs them, read: http://goo.gl/3AFjt3 )
+# Note 7: If you use this with Wordpress, it's better to insert this block before `WP` block.
+# Note 8: Thanks to all contributors! 
+
+
+	
+# Declaring MIME types. (more at: https://goo.gl/imoiAd )
+<IfModule mod_mime.c>
+  # Data interchange
+    AddType application/atom+xml                        atom
+    AddType application/json                            json map topojson
+    AddType application/ld+json                         jsonld
+    AddType application/rss+xml                         rss
+    AddType application/vnd.geo+json                    geojson
+    AddType application/xml                             rdf xml
+  # JavaScript
+    AddType application/javascript                      js
+  # Media files
+    AddType audio/mp4                                   f4a f4b m4a
+    AddType audio/ogg                                   oga ogg opus
+    AddType image/bmp                                   bmp
+    AddType image/svg+xml                               svg svgz
+    AddType image/webp                                  webp
+    AddType video/mp4                                   f4v f4p m4v mp4
+    AddType video/ogg                                   ogv
+    AddType video/webm                                  webm
+    AddType video/x-flv                                 flv
+    AddType image/x-icon                                cur ico
+  # Web fonts
+    AddType application/font-woff                       woff
+    AddType application/font-woff2                      woff2
+    AddType application/vnd.ms-fontobject               eot
+	  # This is needed for some Browsers (more at: http://pastebin.com/raw/Av9n2RqR )
+    AddType application/x-font-ttf                      ttc ttf
+    AddType font/opentype                               otf
+  # Other
+    AddType application/octet-stream                    safariextz
+    AddType application/x-bb-appworld                   bbaw
+    AddType application/x-chrome-extension              crx
+    AddType application/x-opera-extension               oex
+    AddType application/x-xpinstall                     xpi
+    AddType text/vcard                                  vcard vcf
+    AddType text/vnd.rim.location.xloc                  xloc
+    AddType text/vtt                                    vtt
+    AddType text/x-component                            htc
+
+</IfModule>
+
+# For Security (more at: http://pastebin.com/raw/KWYyHwLy )
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+</IfModule>	
+
+
+##############################################################
+##############      CACHING (`EXPIRE`  method)    ################
+### Description:  cache your files with `EXPIRES` method.
+#Note 1: If your hosting cant use `EXPIRES`,use `Cache-Control` http://pastebin.com/E7Bv4D6v
+#Note 2: `EXPIRES` activates `mod_expires`, which automatically 
+#           generates "Cache-Control:max-age.." headers,  so you dont need to add that.
+#Note 3: Instead of "access plus 1 day" you can use A86400 (or whatever seconds you want ).
+#Note 4: If you use FALCON caching, then remove the "text/html" line.
+##############################################################
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresDefault 						   "access plus 1 month"
+    # Media
+    ExpiresByType image/jpg                "access plus 1 year"
+    ExpiresByType image/jpeg               "access plus 1 year"
+    ExpiresByType image/gif                "access plus 1 year"
+    ExpiresByType image/png                "access plus 1 year"
+    ExpiresByType image/bmp                "access plus 1 year"
+    ExpiresByType image/webp               "access plus 1 year"
+    ExpiresByType video/ogg                "access plus 1 year"
+    ExpiresByType audio/ogg                "access plus 1 year"
+    ExpiresByType video/mp4                "access plus 1 year"
+    ExpiresByType video/webm               "access plus 1 year"
+    ExpiresByType image/x-icon             "access plus 1 week"
+    ExpiresByType image/vnd.microsoft.icon "access plus 1 week"
+    # Webfonts
+    ExpiresByType image/svg+xml            "access plus 1 month"
+    ExpiresByType application/vnd.ms-fontobject "access plus 3 months"
+    ExpiresByType font/eot                 "access plus 3 months"
+    ExpiresByType font/opentype            "access plus 3 months"
+    ExpiresByType font/truetype            "access plus 3 months"
+    ExpiresByType application/x-font-ttf   "access plus 3 months"
+    ExpiresByType application/font-woff    "access plus 3 months"
+    ExpiresByType application/x-font-woff  "access plus 3 months"
+    ExpiresByType font/woff                "access plus 3 months"
+    ExpiresByType application/font-woff2   "access plus 3 months"
+    # Other
+    ExpiresByType text/html                "access plus 1 day"
+    ExpiresByType text/css                 "access plus 1 week"
+    ExpiresByType text/javascript          "access plus 1 month"
+    ExpiresByType text/x-javascript        "access plus 1 month"
+    ExpiresByType application/x-javascript "access plus 1 month"
+    ExpiresByType application/javascript   "access plus 1 month"
+    ExpiresByType application/pdf          "access plus 4 months"
+    ExpiresByType application/x-shockwave-flash "access plus 1 month"
+	# Data interchange
+    ExpiresByType text/xml                 "access plus 0 seconds"
+    ExpiresByType application/xml          "access plus 0 seconds"
+    ExpiresByType application/json         "access plus 0 seconds"
+    ExpiresByType application/ld+json      "access plus 0 seconds"
+    ExpiresByType application/schema+json  "access plus 0 seconds"
+    ExpiresByType application/vnd.geo+json "access plus 0 seconds"
+    ExpiresByType application/rss+xml      "access plus 1 hour"
+    ExpiresByType application/rdf+xml      "access plus 1 hour"
+    ExpiresByType application/atom+xml     "access plus 1 hour"
+</IfModule>
+<IfModule mod_headers.c>
+    Header append Cache-Control "public"
+</IfModule>
+
+
+
+	
+	
+	
+###########################################################
+########### Turn off ETags (Entity tags) ##################
+# Description: ETags are a mechanism to check for a newer version of a cached file. By removing
+#               the ETag header, you disable caches & browsers from being able to validate files,
+#               so they are forced to rely on your Cache-Control and Expires header.  
+###########################################################
+
+<ifModule mod_headers.c>
+    Header unset ETag
+</ifModule>
+# the above "unset" is better, because `FileETag None` doesn't work always
+FileETag None
+
+
+###########################################################
+########### Turn off `Last-Modified`     ##################
+#Description:  If you remove the `Last-Modified` and `ETag` header, you will totally eliminate
+#              `If-Modified-Since` and `If-None-Match` requests and their `304 Not Modified` 
+#              responses, so a file will stay cached without checking for updates until the 
+#              `Expires` header indicates new content is available!
+# Note 1: If your existing .htaccess contains any inapropriate `Vary` commands, then you may 
+# 		  need to uncomment the second line, otherwise CACHING wont work!
+###########################################################
+
+<ifModule mod_headers.c>
+    Header unset Last-Modified
+ #  Header unset Vary
+</ifModule>
+
+
+
+        
+##################################################################
+################ COMPRESSION (`DEFLATE` method)  #################
+#Description:  send compressed data to visitor, thus saving Bandwith and SPEED-UP site.
+#Note 1: If your hosting cant use `DEFLATE` method, use GZIP: http://pastebin.com/raw/cuES6XX7
+##################################################################
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/vnd.ms-fontobject
+    AddOutputFilterByType DEFLATE application/x-font
+    AddOutputFilterByType DEFLATE application/x-font-opentype
+    AddOutputFilterByType DEFLATE application/x-font-otf
+    AddOutputFilterByType DEFLATE application/x-font-truetype
+    AddOutputFilterByType DEFLATE application/x-font-ttf
+    AddOutputFilterByType DEFLATE application/x-javascript
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE font/opentype
+    AddOutputFilterByType DEFLATE font/otf
+    AddOutputFilterByType DEFLATE font/ttf
+    AddOutputFilterByType DEFLATE image/svg+xml
+    AddOutputFilterByType DEFLATE image/x-icon
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/javascript
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/xml
+</IfModule>
+
+
+##################################################################################
+###################################### END #######################################
+#######################   HTACCESS optimization (TT's version)    ################
+##################################################################################
