@@ -130,8 +130,8 @@ FileETag None
 
 <ifModule mod_headers.c>
     Header unset Last-Modified
-           # you may need to uncomment below line if your existing htaccess contains inapropriate `Vary` commands
-           # otherwise CACHING wont work!
+           # you may need to uncomment below line if your existing htaccess contains
+           # inapropriate `Vary` commands, otherwise CACHING wont work!
  #* Header unset Vary
 </ifModule>
 
@@ -182,8 +182,8 @@ FileETag None
 
             ###########################################################
             ################## `GZIP` COMPRESSION   ###################
-            # Description: If using `DEFLATE`, then you dont need GZIP. But if `DEFLATE` doesnt work,
-            #              then use this (some say, that it is CPU intensive).
+            # Description: If using `DEFLATE`, then you dont need GZIP. But if `DEFLATE` 
+            #              doesnt work, then use this method (some say it's CPU intensive).
             ###########################################################
         #*    <IfModule mod_gzip.c>
         #*        mod_gzip_on Yes
@@ -208,4 +208,4 @@ FileETag None
             ###########################################################
             # Compressing PHP files :
         #*    php_value output_handler ob_gzhandler
-            # Compressing static files: use Ali Farhadi’s JSmart Compressor which compress CSS and JavaScript files - https://samaxes.com/2008/04/htaccess-gzip-and-cache-your-site-for-faster-loading-and-bandwidth-saving/
+            # Compressing static files: use i.e. JSmart Compressor - https://goo.gl/ai6teJ
