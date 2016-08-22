@@ -4,16 +4,14 @@
 # Caching explained: #
 # - https://betterexplained.com/articles/how-to-optimize-your-site-with-http-caching/
 # - https://www.mnot.net/cache_docs/#CACHE-CONTROL
-# 
-# (caching with php - https://github.com/tazotodua/other-projects/blob/master/___deleted_files/caching%20with%20php )
+# (caching with php - https://git.io/v6yfp )
 
 #### Some notes: #####
-#Note 1: Remember, in HTACCESS, instead of ONE-LINE File-Type commands, you can always use `<FilesMatch>` command. 
-#        Example: instead of-
-#            ExpiresByType image/jpg "access plus 1 year" 
+# Note 1: Remember, in HTACCESS, instead of ONE-LINE fileType commands, i.e.
+#            ExpiresByType image/jpg "access plus 5 months"  
 #        You can use:
 #            <FilesMatch "\.(jpg|png)$">
-#              ExpiresDefault "access plus 1 year"
+#              ExpiresDefault "access plus 3 months"
 #            </FilesMatch>
     
     
@@ -21,14 +19,14 @@
 
             ##***********************************************************************************##
             ##***********************************************************************************##
-            ##********************            CACHING           *********************##
+            ##********************                CACHING                   *********************##
             ##***********************************************************************************##
             ##***********************************************************************************##
 
 
 ##############################################################
-##############         CACHING with "EXPIRE"       ################
-##Description: you can adjust the below options. Note, if you use FALCON caching, then remove the below "text/html"  line.
+##############      CACHING with "EXPIRE"     ################
+### Description: you can adjust the below options. 
 ##############################################################
 <IfModule mod_expires.c>
     ExpiresActive On
@@ -72,15 +70,20 @@
 </IfModule>
 
     ############P.S.#############
-    #Note 1: "ExpiresActive" activates "mod_expires", which automatically generates  "Cache-Control:max-age.." headers  
-    #Note 2: Instead of "access plus 1 day" you can use A86400 (or whatever seconds you want ). They are same, dont worry.
+    #Note 1: "ExpiresActive" activates "mod_expires", which automatically 
+    #           generates "Cache-Control:max-age.." headers,  so you wont need to add that.
+    #Note 2: Instead of "access plus 1 day" you can use A86400 (or whatever seconds you want ).
+    #Note 3: If you use FALCON caching, then remove the "text/html" line.
                     
                 
                 
                 
             ##################################################################
             ##################   CACHING with "Cache-control"    #############
-            ##Description: If you use "EXPIRES" method for caching, then this method("Cache-control") is not needed. But when servers doesnt support "EXPIRES",  OR you just want to use some specific options (i.e. revalidate,no-cache...), then instead of "EXPIRES" method, use these:
+            ### Description: This block is not needed, if you use "EXPIRES" method for caching. 
+            #                 But if your hosting doesnt support "EXPIRES",  OR you just want
+            #                 to use some specific options (i.e. revalidate,no-cache...), then 
+            #                 instead of "EXPIRES" method, use this block:
             ##################################################################        
         #*    <ifModule mod_headers.c>
         #*        #max age is calculated in seconds (1 month = 2592000 )
@@ -105,7 +108,9 @@
 
 ###########################################################
 ########### Turn off ETags (Entity tags) ##################
-#Description:  ETags are a mechanism to check for a newer version of a cached file. By removing the ETag header, you disable caches & browsers from being able to validate files, so they are forced to rely on your Cache-Control and Expires header.  
+# Description: ETags are a mechanism to check for a newer version of a cached file. By removing
+#               the ETag header, you disable caches & browsers from being able to validate files,
+#               so they are forced to rely on your Cache-Control and Expires header.  
 ###########################################################
 
 <ifModule mod_headers.c>
@@ -117,12 +122,16 @@ FileETag None
 
 ###########################################################
 ########### Turn off `Last-Modified`     ##################
-#Description:  If you remove the `Last-Modified` and `ETag` header, you will totally eliminate `If-Modified-Since` and `If-None-Match` requests and their `304 Not Modified` responses, so a file will stay cached without checking for updates until the `Expires` header indicates new content is available!
+#Description:  If you remove the `Last-Modified` and `ETag` header, you will totally eliminate
+#              `If-Modified-Since` and `If-None-Match` requests and their `304 Not Modified` 
+#              responses, so a file will stay cached without checking for updates until the 
+#              `Expires` header indicates new content is available!
 ###########################################################
 
 <ifModule mod_headers.c>
     Header unset Last-Modified
-    # you may need to uncomment below line if your existing htaccess contains inapropriate `Vary` commands, otherwise CACHING wont work!
+           # you may need to uncomment below line if your existing htaccess contains inapropriate `Vary` commands
+           # otherwise CACHING wont work!
  #* Header unset Vary
 </ifModule>
 
@@ -173,7 +182,8 @@ FileETag None
 
             ###########################################################
             ################## `GZIP` COMPRESSION   ###################
-            #Description: If using `DEFLATE`, then you dont need GZIP. But if `DEFLATE` doesnt work, then use this (some say, that it is CPU intensive) #
+            # Description: If using `DEFLATE`, then you dont need GZIP. But if `DEFLATE` doesnt work,
+            #              then use this (some say, that it is CPU intensive).
             ###########################################################
         #*    <IfModule mod_gzip.c>
         #*        mod_gzip_on Yes
@@ -192,7 +202,9 @@ FileETag None
         
             ###########################################################
             ################ Manual `GZIP` COMPRESSION  ###############
-            #Description: If your hosting doesn’t have this module enabled, instead of above code, you can use manual method. Using this method, you use PHP function to GZIP files. However, this is very CPU intensive. #
+            # Description: If your hosting doesn’t have this module enabled, instead of above code,
+            #               you can use manual method. This method uses PHP function to GZIP files.
+            #               However, this is very CPU intensive. #
             ###########################################################
             # Compressing PHP files :
         #*    php_value output_handler ob_gzhandler
