@@ -157,13 +157,14 @@ FileETag None
 #              `If-Modified-Since` and `If-None-Match` requests and their `304 Not Modified` 
 #              responses, so a file will stay cached without checking for updates until the 
 #              `Expires` header indicates new content is available!
-# Note 1: If your existing .htaccess contains any inapropriate `Vary` commands, then you may 
-# 		  need to uncomment the second line, otherwise CACHING wont work!
+# Note 1: If your existing .htaccess contains any inapropriate `Vary` commands (i.e. WordFence 
+#         sets it to "Accept-Encoding, Cookie"), then you may  need to uncomment the second 
+#         line, otherwise CACHING wont work!
 ###########################################################
 
 <ifModule mod_headers.c>
     Header unset Last-Modified
- #  Header unset Vary
+ #  Header set Vary "Accept-Encoding"
 </ifModule>
 
 
