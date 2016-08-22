@@ -1,13 +1,14 @@
-###################### Include this page fully in your HTACCESS ###################
-############################ ShortLink:  https://git.io/v6yeb #####################
-
-# Caching explained: #
-# - https://betterexplained.com/articles/how-to-optimize-your-site-with-http-caching/
-# - https://www.mnot.net/cache_docs/#CACHE-CONTROL
-# (caching with php - https://git.io/v6yfp )
-
-#### Some notes: #####
-# Note 1: Remember, in HTACCESS, instead of ONE-LINE fileType commands, i.e.
+##################################################################################
+########################### HTACCESS optimization (TT's version) #################
+##################################################################################
+######################### ShortLink:  https://git.io/v6ykm #######################
+# Note 1: Include this page fully in your HTACCESS 
+# Note 2: Suggestions are welcome! (mail at: tazotodua+github@gmail.com) ####
+# Note 3: Caching explained: #
+#           - https://betterexplained.com/articles/how-to-optimize-your-site-with-http-caching/
+#           - https://www.mnot.net/cache_docs/#CACHE-CONTROL
+# Note 4: In case you dont have access to HTACCESS, then caching with PHP: https://git.io/v6yfp
+# Note 5: Remember, in HTACCESS, instead of ONE-LINE fileType commands, i.e.
 #            ExpiresByType image/jpg "access plus 5 months"  
 #        You can use:
 #            <FilesMatch "\.(jpg|png)$">
@@ -19,7 +20,7 @@
 
             ##***********************************************************************************##
             ##***********************************************************************************##
-            ##********************                CACHING                   *********************##
+            ##********************             CACHING BLOCK                *********************##
             ##***********************************************************************************##
             ##***********************************************************************************##
 
@@ -145,7 +146,7 @@ FileETag None
 
             ##***********************************************************************************##
             ##***********************************************************************************##
-            ##********************                COMPRESSION               *********************##
+            ##********************         COMPRESSION  BLOCK               *********************##
             ##***********************************************************************************##
             ##***********************************************************************************##
 
