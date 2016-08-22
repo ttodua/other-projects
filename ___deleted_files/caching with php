@@ -1,0 +1,26 @@
+==============USING PHP ================
+#using php header('Cache-control: max-age='.(60*60*24*365) .', public , must-revalidate');
+session_cache_limiter('none');
+// http://stackoverflow.com/a/1385982/2377343
+                                    $year=60*60*24*365;//year
+//Caching with "CACHE CONTROL"
+    header('Cache-control: max-age='.$year .', public');
+//Caching with "EXPIRES"
+    //no need of EXPIRES when CACHE-CONTROL enabled
+    //header('Expires: '.gmdate(DATE_RFC1123,time()+$year));
+//To get best cacheability, send Last-Modified header and ...
+    header('Last-Modified: '.gmdate(DATE_RFC1123,filemtime(__file__)));  //i.e.  1467220550 [it's 30 june,2016]
+//reply using: status 304 (with empty body) if browser sends If-Modified-Since header.... This is cheating a bit (doesn't verify the date), but remove if you dont want to be cached forever:
+// if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {  header('HTTP/1.1 304 Not Modified');   die();  }
+ 
+ 
+ 
+ 
+in Wordpress
+==============================
+//Set or replace $regex_path_match accordingly
+  if (preg_match($regex_path_match, $_SERVER['REQUEST_URI'])) {
+    add_action( 'send_headers', 'add_header_nocache' );
+  }
+  function add_header_nocache() {
+    header( 'Cache-Control: ............' );
