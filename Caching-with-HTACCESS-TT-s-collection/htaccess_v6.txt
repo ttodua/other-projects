@@ -3,21 +3,22 @@
 ##################################################################################
 ######################### ShortLink:  https://git.io/v6ykm #######################
 # NOTE 1: READ ALL NOTES & COMMENTS in this file, PLEASE!
-# NOTE 2: It's better if you paste this page fully in your HTACCESS 
-# NOTE 3: Suggestions are welcome! (mail at: tazotodua+github@gmail.com) ####
-# NOTE 4: In some cases, if your hosting is limited, you can use different "CACHING" and
+#         It's better if you paste this page fully in your HTACCESS. 
+#         Suggestions are welcome! Mail me: tazotodua+github@gmail.com
+# NOTE 2: In some low-quality hostings, these codes wont work in HTACCESS.
+# NOTE 3: In some cases, if your hosting is limited, you can use different "CACHING" and
 #            "COMPRESSION" methods, rather than the my codes. For this, read the commented lines
 #            in "CACHING" and "COMPRESSION" blocks.
-# NOTE 4: In case you dont have access to HTACCESS, then caching with PHP: https://git.io/v6yfp
-# NOTE 5: Remember, in HTACCESS, instead of ONE-LINE fileType commands, i.e.
-#            ExpiresByType image/jpg "access plus 5 months"  
+# NOTE 3: In case you dont have access to HTACCESS, see doing it with PHP: https://git.io/v6yfp
+# NOTE 4: Remember, in HTACCESS, instead of ONE-LINE fileType commands, i.e.
+#            ExpiresByType image/jpg "access plus 3 months"  
 #        You can use:
 #            <FilesMatch "\.(jpg|png)$">
 #              ExpiresDefault "access plus 3 months"
 #            </FilesMatch>
-# NOTE 6: Most users wont ever need Manifest files. (Who needs them, read: http://goo.gl/3AFjt3 )
-# NOTE 7: If you use this with Wordpress, it's better to insert this block before `WP` block.
-# NOTE 8: Thanks to all contributors! 
+# NOTE 5: Most users wont ever need Manifest files. (Who needs them, read: http://goo.gl/3AFjt3 )
+# NOTE 6: If you use this with Wordpress, it's better to insert this block before `WP` block.
+# NOTE 7: Thanks to all contributors! 
 ###################################################################################
 ###################################################################################
 
