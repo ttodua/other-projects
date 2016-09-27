@@ -93,7 +93,7 @@ function show_my_popup(TEXTorID,AdditionalStyles='' ){
 function GetTopGe(domain,id,targetDiv){
 	if (domain==window.location.hostname){
 	  var div=document.getElementById(targetDiv) || document.body;
-	  div.insertAdjacentHTML("beforeend", "<!-- TOP.GE COUNTER CODE --><div class='topgebanner' style='text-align:right;'><script src='//counter.top.ge/cgi-bin/cod?100+"+id+"' type='text/javascript'/><noscript><a href='http://counter.top.ge/cgi-bin/showtop?"+id+"' target='_top'><img alt='TOP.GE' border='0' src='//counter.top.ge/cgi-bin/count?ID:"+id+"+JS:false'/></a></noscript></div><!-- / END OF TOP.GE COUNTER CODE -->";
+	  div.insertAdjacentHTML("beforeend", "<!-- TOP.GE COUNTER CODE --><div class='topgebanner' style='text-align:right;'><script src='//counter.top.ge/cgi-bin/cod?100+"+id+"' type='text/javascript'/><noscript><a href='http://counter.top.ge/cgi-bin/showtop?"+id+"' target='_top'><img alt='TOP.GE' border='0' src='//counter.top.ge/cgi-bin/count?ID:"+id+"+JS:false'/></a></noscript></div><!-- / END OF TOP.GE COUNTER CODE -->");
 	}
 }
 
