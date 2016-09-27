@@ -368,6 +368,6 @@ window.onload=function(){
 	hlight();
 	hide_popuping_divs();
 	jAvtivatinggg();
-
+ 	GetTopGe('otaxi.pvt.ge',28329); 	GetTopGe('www.otaxi.pvt.ge',28329);
 	
 };
