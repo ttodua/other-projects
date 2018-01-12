@@ -4,7 +4,11 @@ function linkattacheEDIT(){
 	document.body.appendChild(x);
 } 
   
-
+//to check whenever element is loaded
+function when_element_is_loaded(Id_or_class,functionname){	
+	Id_or_class=Id_or_class.trim(); var eName = Id_or_class.substr(1);  if('#'==Id_or_class.charAt(0)){var x=document.getElementById(eName);} else{var x=document.getElementsByClassName(eName)[0];}  
+	if(x) { functionname(); }	 else { setTimeout(when_element_is_loaded, 100,  Id_or_class, functionname); } 
+}
 
 
 function qart_filtr(m) 
@@ -45,8 +49,9 @@ function show_my_popup(TEXTorID,AdditionalStyles='' ){
 }
 //#####################################################################################################################################
 
-
 	
+
+
 	//es funqcia sul boloshi itvirteba
 	function hide_popuping_divs()
 	{
@@ -356,7 +361,9 @@ function jAvtivatinggg(){
 
 
 
-
+function inIframe () {
+    try { return window.self !== window.top; } catch (e) {  return true;  }
+}
 
 
 
@@ -370,4 +377,13 @@ window.onload=function(){
 	jAvtivatinggg();
  	//GetTopGe('otaxi.pvt.ge',28329); 	GetTopGe('www.otaxi.pvt.ge',28329);
 	
+	when_element_is_loaded('.body-fauxcolumns', function(){
+		if(inIframe()){
+			var ifrm_cnt = document.getElementById("_is_iframed_content_");
+			if(ifrm_cnt){
+			   document.body.innerHTML= ifrm_cnt.innerHTML;
+			   document.body.className += " my_backgrounded";
+			}	
+		}
+	});
 };
